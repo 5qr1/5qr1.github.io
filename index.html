@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5QR1WORLD</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .spacey-container, #blog-section {
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at center, #000015, #000010, #000);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .gif-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .gif-container img {
+            width: 180%;
+            height: auto;
+        }
+
+        .nav-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 16px;
+            color: #4a90e2;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .nav-button:hover {
+            color: #357ab7;
+        }
+
+        #blog-section {
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            padding: 20px;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1;
+        }
+
+        #blog-section.active {
+            top: 0;
+        }
+
+        #blog-section.hidden {
+            top: 100%;
+        }
+        
+        .nav-button.go-home {
+            right: 50px; 
+        }
+
+    </style>
+</head>
+<body>
+    <div class="spacey-container">
+        <div class="star-container"></div>
+        <div class="gif-container">
+            <img src="images/5qr1globe.gif" alt="Space GIF">
+        </div>
+        <span class="nav-button" onclick="goToBlog()">to blog</span>
+    </div>
+
+    <div id="blog-section">
+        <div class="star-container"></div>
+        i have not made this shit yet
+        <span class="nav-button go-home" onclick="goHome()">go home</span>
+    </div>
+
+    <audio id="background-audio" src="audio/ArrowRootMFDOOM.mp3" autoplay loop></audio>
+
+    <script>
+        window.onload = function() {
+            window.scrollTo(0, 0);
+        };
+
+        const containerMain = document.querySelector('.spacey-container .star-container');
+        const containerBlog = document.querySelector('#blog-section .star-container');
+        const blogSection = document.querySelector('#blog-section');
+
+        function createStars(container, numStars) {
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.opacity = Math.random() * 0.8 + 0.2;
+                container.appendChild(star);
+            }
+        }
+
+        createStars(containerMain, 500);
+        createStars(containerBlog, 500);
+
+        const audio = document.getElementById('background-audio');
+        audio.volume = 0.5;
+
+        document.body.addEventListener('click', function() {
+            if (audio.paused) {
+                audio.play();
+            }
+        });
+
+        function goToBlog() {
+            blogSection.classList.add('active');
+            blogSection.classList.remove('hidden');
+        }
+
+        function goHome() {
+            blogSection.classList.add('hidden');
+            blogSection.classList.remove('active');
+        }
+    </script>
+</body>
+</html>
