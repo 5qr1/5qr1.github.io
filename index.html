@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5QR1WORLD</title>
+    <link rel="icon" type="image/gif" href="images/5qr1globe.gif">
     <style>
         html, body {
             margin: 0;
@@ -57,7 +58,8 @@
         #blog-section {
             color: white;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
             font-size: 24px;
             padding: 20px;
@@ -79,6 +81,42 @@
             right: 50px; 
         }
 
+        .blog-title {
+            font-size: 48px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 20px 0;
+            text-decoration: underline;
+        }
+
+        .placeholder-text {
+            font-size: 18px;
+            margin-top: -20px;
+            text-align: center;
+            max-width: 80%;
+            line-height: 1.5;
+        }
+
+        .blog-list {
+            margin-top: 20px;
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        .blog-list li {
+            margin: 10px 0;
+        }
+
+        .blog-list a {
+            color: #4a90e2;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        .blog-list a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -92,16 +130,76 @@
 
     <div id="blog-section">
         <div class="star-container"></div>
-        i have not made this shit yet
+        <div class="blog-title">BLOG</div>
+        <div class="placeholder-text" id="random-text"></div>
+        <ul class="blog-list" id="blog-list"></ul>
         <span class="nav-button go-home" onclick="goHome()">go home</span>
     </div>
 
-    <audio id="background-audio" src="audio/ArrowRootMFDOOM.mp3" autoplay loop></audio>
+    <audio id="background-audio" autoplay loop></audio>
 
     <script>
+        const audioPool = [
+            "audio/ArrowRootMFDOOM.mp3",
+            "audio/BergamotWildMFDOOM.mp3"
+        ];
+
+        const textPool = [
+            "i am not a very good writer",
+            "how do i write javascript",
+            "does anyone read these lol",
+            "theres no hidden room below the igloos",
+            "read about useless shit 4 free"
+        ];
+
+        const blogPostsPool = [
+            { title: "this is not a real link", link: "blog/UNReal.html" },
+            { title: "nor is this", link: "blog/nope.html" },
+            { title: "whatchu think i am", link: "blog/fake.html" }
+        ];
+
+        const audio = document.getElementById('background-audio');
+
+        function pickRandomTrack() {
+            return audioPool[Math.floor(Math.random() * audioPool.length)];
+        }
+
+        function playRandomTrack() {
+            audio.src = pickRandomTrack();
+            audio.play();
+        }
+
+        function displayRandomText() {
+            const randomText = textPool[Math.floor(Math.random() * textPool.length)];
+            document.getElementById('random-text').textContent = randomText;
+        }
+
+        function displayBlogPosts() {
+            const blogList = document.getElementById('blog-list');
+            blogPostsPool.forEach(post => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = post.link;
+                a.textContent = post.title;
+                li.appendChild(a);
+                blogList.appendChild(li);
+            });
+        }
+
         window.onload = function() {
+            playRandomTrack();
+            displayRandomText();
+            displayBlogPosts();
             window.scrollTo(0, 0);
         };
+
+        audio.addEventListener('ended', playRandomTrack);
+
+        document.body.addEventListener('click', function() {
+            if (audio.paused) {
+                audio.play();
+            }
+        });
 
         const containerMain = document.querySelector('.spacey-container .star-container');
         const containerBlog = document.querySelector('#blog-section .star-container');
@@ -121,15 +219,8 @@
         createStars(containerMain, 500);
         createStars(containerBlog, 500);
 
-        const audio = document.getElementById('background-audio');
         audio.volume = 0.5;
-
-        document.body.addEventListener('click', function() {
-            if (audio.paused) {
-                audio.play();
-            }
-        });
-
+        
         function goToBlog() {
             blogSection.classList.add('active');
             blogSection.classList.remove('hidden');
