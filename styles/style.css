@@ -1,9 +1,19 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
     overflow: hidden;
     touch-action: none;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .spacey-container, #blog-section {
@@ -70,10 +80,6 @@ html, body {
     top: 100%;
 }
 
-.nav-button.go-home {
-    right: 50px;
-}
-
 .blog-title {
     font-size: 48px;
     font-weight: bold;
@@ -113,9 +119,6 @@ html, body {
 
 #keybinds-popup {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     background-color: #000015;
     color: white;
     padding: 20px;
@@ -123,19 +126,18 @@ html, body {
     display: none;
     z-index: 2;
     width: 300px;
+    height: auto;
     text-align: center;
-}
-
-#keybinds-popup h3 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    overflow: hidden;
+    user-select: none;
 }
 
 #keybinds-popup ul {
-    list-style-type: none;
-    padding: 0;
+    list-style-type: none; /* Removes bullet points */
+    padding: 0; /* Removes padding */
+    margin: 0; /* Removes any margin around the list */
 }
 
-#keybinds-popup ul li {
-    margin: 10px 0;
+#keybinds-popup li {
+    margin: 10px 0; /* Optional: Adds spacing between list items */
 }
