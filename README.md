@@ -12,4 +12,4 @@ w: pause/unpause song
 
 e: play next song
 
-![5qr1 globe](images/5qr1globe.gif}
+![5qr1 globe](images/5qr1globe.gif)
