@@ -76,9 +76,9 @@
         #blog-section.hidden {
             top: 100%;
         }
-        
+
         .nav-button.go-home {
-            right: 50px; 
+            right: 50px;
         }
 
         .blog-title {
@@ -117,6 +117,35 @@
         .blog-list a:hover {
             text-decoration: underline;
         }
+
+        #keybinds-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #000015;
+            color: white;
+            padding: 20px;
+            border: 1px solid white;
+            display: none;
+            z-index: 2;
+            width: 300px;
+            text-align: center;
+        }
+
+        #keybinds-popup h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #keybinds-popup ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #keybinds-popup ul li {
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
@@ -138,10 +167,21 @@
 
     <audio id="background-audio" autoplay loop></audio>
 
+    <div id="keybinds-popup">
+        <h2>keybinds</h2>
+        <ul>
+            <li><strong>q:</strong> prev song</li>
+            <li><strong>w:</strong> pause / play song</li>
+            <li><strong>e:</strong> next song</li>
+        </ul>
+    </div>
+
     <script>
         const audioPool = [
             "audio/ArrowRootMFDOOM.mp3",
-            "audio/BergamotWildMFDOOM.mp3"
+            "audio/BergamotWildMFDOOM.mp3",
+            "audio/ItsYourWorld.mp3",
+            "audio/NasIsLikeNASInstrumental.mp3"
         ];
 
         const textPool = [
@@ -159,6 +199,8 @@
         ];
 
         const audio = document.getElementById('background-audio');
+
+        let currentAudioIndex = 0;
 
         function pickRandomTrack() {
             return audioPool[Math.floor(Math.random() * audioPool.length)];
@@ -220,7 +262,7 @@
         createStars(containerBlog, 500);
 
         audio.volume = 0.5;
-        
+
         function goToBlog() {
             blogSection.classList.add('active');
             blogSection.classList.remove('hidden');
@@ -230,6 +272,32 @@
             blogSection.classList.add('hidden');
             blogSection.classList.remove('active');
         }
+
+        document.addEventListener('keydown', function(event) {
+            const keybindsPopup = document.getElementById('keybinds-popup');
+            
+            if (event.key === 'q') {
+                currentAudioIndex = (currentAudioIndex - 1 + audioPool.length) % audioPool.length;
+                audio.src = audioPool[currentAudioIndex];
+                audio.play();
+            } else if (event.key === 'w') {
+                if (audio.paused) {
+                    audio.play();
+                } else {
+                    audio.pause();
+                }
+            } else if (event.key === 'e') {
+                currentAudioIndex = (currentAudioIndex + 1) % audioPool.length;
+                audio.src = audioPool[currentAudioIndex];
+                audio.play();
+            } else if (event.key === 'h') {
+                if (keybindsPopup.style.display === 'none' || keybindsPopup.style.display === '') {
+                    keybindsPopup.style.display = 'block';
+                } else {
+                    keybindsPopup.style.display = 'none';
+                }
+            }
+        });
     </script>
 </body>
 </html>
