@@ -1,7 +1,5 @@
 export function showMobileButtonIfNeeded() {
-    const isMobile = (
-        (window.innerWidth <= 768 || /Mobi|Android/i.test(navigator.userAgent)) && window.matchMedia("(max-width: 768px)").matches
-    ) || (/iPad|iPhone|iPod/i.test(navigator.userAgent) && !/Macintosh/i.test(navigator.userAgent));
+    const isMobile = /iPhone|iPad|iPod/i.test(navigator.userAgent) && !/Macintosh/i.test(navigator.userAgent);
 
     const mobileKeyboardButton = document.getElementById('mobile-keyboard-button');
 

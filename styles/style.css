@@ -95,3 +95,25 @@ html, body {
 #neofetch-popup li {
     margin: 10px 0;
 }
+
+#mobile-keyboard-button {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-color: #000015;
+    color: white;
+    border: 1px solid white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 999; 
+    display: none; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    user-select: none;
+    transition: background-color 0.3s ease;
+}
+
+#mobile-keyboard-button:hover {
+    background-color: #1a1a3d;
+}
