@@ -1,10 +1,12 @@
 let isDragging = false;
 let offsetX, offsetY;
+let touchTimeout = null; 
 
 const blogPopup = document.getElementById('blog-popup');
 const blogButtons = document.querySelectorAll('.blog-btn');
 
 export function togglePopupBlog() {
+    console.log('Toggling popup visibility...');
     if (blogPopup.style.display === 'none' || blogPopup.style.display === '') {
         blogPopup.style.display = 'block';
     } else {
@@ -23,6 +25,11 @@ function startDrag(event) {
 
     if (event.type === 'touchstart') {
         event.preventDefault();
+    }
+
+    if (touchTimeout) {
+        clearTimeout(touchTimeout);
+        touchTimeout = null;
     }
 }
 
@@ -58,7 +65,7 @@ document.addEventListener('touchend', endDrag);
 
 window.addEventListener('load', () => {
     blogButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(event) {
             const markdownFile = button.getAttribute('data-markdown');
             document.getElementById('markdown-popup').style.display = 'block';
             import('./popupMarkdown.js').then(module => {
@@ -66,6 +73,25 @@ window.addEventListener('load', () => {
             }).catch(error => {
                 console.error('Error importing popupMarkdown.js:', error);
             });
+        });
+
+        button.addEventListener('touchstart', function(event) {
+            touchTimeout = setTimeout(() => {
+                const markdownFile = button.getAttribute('data-markdown');
+                document.getElementById('markdown-popup').style.display = 'block';
+                import('./popupMarkdown.js').then(module => {
+                    module.showMarkdownPopup(markdownFile); 
+                }).catch(error => {
+                    console.error('Error importing popupMarkdown.js:', error);
+                });
+            }, 200);  
+        });
+
+        button.addEventListener('touchend', function(event) {
+            if (touchTimeout) {
+                clearTimeout(touchTimeout);
+                touchTimeout = null;
+            }
         });
     });
 });
