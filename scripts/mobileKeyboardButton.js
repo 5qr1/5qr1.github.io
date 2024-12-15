@@ -19,22 +19,31 @@ export function showMobileButtonIfNeeded() {
             input.style.width = '1px';
             document.body.appendChild(input);
             input.focus();
+
+            let lastInputTime = 0; 
+            const DEBOUNCE_DELAY = 100; 
+
             input.addEventListener('input', (event) => {
                 const value = event.target.value;
-                if (value) {
-                    const key = value[value.length - 1].toLowerCase(); 
+                const currentTime = Date.now();
+
+                if (currentTime - lastInputTime > DEBOUNCE_DELAY && value) {
+                    const key = value[value.length - 1].toLowerCase();
                     dispatchKeyEvent(key); 
-                    input.value = ''; 
+                    input.value = '';
+                    lastInputTime = currentTime; 
                 }
             });
+
             input.addEventListener('blur', () => {
                 document.body.removeChild(input);
             });
         });
     }
 }
+
 function dispatchKeyEvent(key) {
-    const normalizedKey = key.toLowerCase(); 
+    const normalizedKey = key.toLowerCase();
     const event = new KeyboardEvent('keydown', { key: normalizedKey });
     document.dispatchEvent(event);
 }
