@@ -3,7 +3,6 @@ import { togglePopupKey } from './popupKey.js';
 import { togglePopupNeofetch } from './popupNeofetch.js';
 import { showMobileButtonIfNeeded } from './mobileKeyboardButton.js';
 
-
 window.onload = function() {
     initAudio();
     initMiscellaneous();

@@ -22,13 +22,10 @@ export function showMobileButtonIfNeeded() {
             input.addEventListener('input', (event) => {
                 const value = event.target.value;
                 if (value) {
-                    const key = value[value.length - 1]; 
-                    dispatchKeyEvent(key);
+                    const key = value[value.length - 1].toLowerCase(); 
+                    dispatchKeyEvent(key); 
                     input.value = ''; 
                 }
-            });
-            input.addEventListener('keydown', (event) => {
-                dispatchKeyEvent(event.key); 
             });
             input.addEventListener('blur', () => {
                 document.body.removeChild(input);
@@ -37,6 +34,7 @@ export function showMobileButtonIfNeeded() {
     }
 }
 function dispatchKeyEvent(key) {
-    const event = new KeyboardEvent('keydown', { key });
+    const normalizedKey = key.toLowerCase(); 
+    const event = new KeyboardEvent('keydown', { key: normalizedKey });
     document.dispatchEvent(event);
 }
