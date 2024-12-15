@@ -16,7 +16,7 @@ html, body {
     align-items: center;
 }
 
-.spacey-container, #blog-section {
+.spacey-container {
     width: 100vw;
     height: 100vh;
     background: radial-gradient(circle at center, #000015, #000010, #000);
@@ -44,79 +44,6 @@ html, body {
     height: auto;
 }
 
-.nav-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 16px;
-    color: #4a90e2;
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.nav-button:hover {
-    color: #357ab7;
-}
-
-#blog-section {
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 24px;
-    padding: 20px;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1;
-}
-
-#blog-section.active {
-    top: 0;
-}
-
-#blog-section.hidden {
-    top: 100%;
-}
-
-.blog-title {
-    font-size: 48px;
-    font-weight: bold;
-    text-transform: uppercase;
-    margin: 20px 0;
-    text-decoration: underline;
-}
-
-.placeholder-text {
-    font-size: 18px;
-    margin-top: -20px;
-    text-align: center;
-    max-width: 80%;
-    line-height: 1.5;
-}
-
-.blog-list {
-    margin-top: 20px;
-    list-style: none;
-    padding: 0;
-    text-align: center;
-}
-
-.blog-list li {
-    margin: 10px 0;
-}
-
-.blog-list a {
-    color: #4a90e2;
-    text-decoration: none;
-    font-size: 20px;
-}
-
-.blog-list a:hover {
-    text-decoration: underline;
-}
-
 #keybinds-popup {
     position: fixed;
     background-color: #000015;
@@ -133,11 +60,38 @@ html, body {
 }
 
 #keybinds-popup ul {
-    list-style-type: none; /* Removes bullet points */
-    padding: 0; /* Removes padding */
-    margin: 0; /* Removes any margin around the list */
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
 #keybinds-popup li {
-    margin: 10px 0; /* Optional: Adds spacing between list items */
+    margin: 10px 0;
+}
+
+#neofetch-popup {
+    position: fixed;
+    background-color: #000015;
+    color: white;
+    padding: 20px;
+    border: 1px solid white;
+    display: none;
+    z-index: 2;
+    width: auto;
+    height: auto;
+    text-align: left; 
+    overflow: hidden;
+    user-select: none;
+    font-family: 'Courier New', monospace; 
+    font-size: 14px;
+}
+
+#neofetch-popup pre {
+    margin: 0;
+    white-space: pre-wrap; 
+    word-wrap: break-word; 
+}
+
+#neofetch-popup li {
+    margin: 10px 0;
 }

@@ -13,15 +13,6 @@
         <div class="gif-container">
             <img src="images/5qr1globe.gif" alt="Space GIF">
         </div>
-        <span class="nav-button" onclick="goToBlog()">to blog</span>
-    </div>
-
-    <div id="blog-section">
-        <div class="star-container"></div>
-        <div class="blog-title">BLOG</div>
-        <div class="placeholder-text" id="random-text"></div>
-        <ul class="blog-list" id="blog-list"></ul>
-        <span class="nav-button go-home" onclick="goHome()">go home</span>
     </div>
 
     <audio id="background-audio" autoplay loop></audio>
@@ -35,6 +26,19 @@
         </ul>
     </div>
 
-    <script src="scripts/script.js"></script>
+    <div id="neofetch-popup">
+        <pre>
+<span id="line1"></span> 5qr1@world
+<span id="line2"></span> -------
+<span id="line3"></span> OS: <span id="os-line"></span>
+<span id="line4"></span> Browser: <span id="browser-line"></span>
+<span id="line5"></span> Engine: <span id="engine-line"></span>
+<span id="line6"></span> Search Engine: <span id="search-engine-line"></span>
+<span id="line7"></span>
+        </pre>
+    </div>
+      
+
+    <script type="module" src="scripts/main.js"></script>
 </body>
 </html>
