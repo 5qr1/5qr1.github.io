@@ -63,22 +63,19 @@ function detectBrowser() {
 }
 
 function detectBrowserEngine() {
-    const userAgent = navigator.userAgent.toLowerCase();
+    if (navigator.vendor === 'Apple Computer, Inc.') {
+        window.browser.engine = 'webkit';
+    } else if (navigator.vendor === 'Google Inc.') {
+        window.browser.engine = 'blink';
+    } else if (!!navigator.buildID) {
+        window.browser.engine = 'gecko';
+    } else if (!!document.documentMode || !!window.ActiveXObject) {
+        window.browser.engine = 'mshtml';
+    } else {
+        window.browser.engine = 'unknown';
+    }
 
-    const engine = userAgent.includes('webkit')
-        ? 'WebKit'
-        : userAgent.includes('gecko')
-        ? 'Gecko'
-        : userAgent.includes('trident')
-        ? 'Trident'
-        : userAgent.includes('blink')
-        ? 'Blink'
-        : 'Unknown';
-
-    const versionMatch = userAgent.match(/applewebkit\/([\d.]+)/) || [];
-    const version = versionMatch[1] || 'N/A';
-
-    return `${engine} ${version}`;
+    return window.browser.engine;
 }
 
 function detectSearchEngine() {
