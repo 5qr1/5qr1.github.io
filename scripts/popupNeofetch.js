@@ -119,29 +119,48 @@ let isDragging = false;
 let offsetX, offsetY;
 const neofetchPopup = document.getElementById('neofetch-popup');
 
-neofetchPopup.addEventListener('mousedown', function (event) {
-    if (event.target !== neofetchPopup) {
-        isDragging = true;
-        offsetX = event.clientX - neofetchPopup.getBoundingClientRect().left;
-        offsetY = event.clientY - neofetchPopup.getBoundingClientRect().top;
-        document.body.style.cursor = 'grabbing';
-    }
-});
+function startDrag(event) {
+    const clientX = event.type === 'mousedown' ? event.clientX : event.touches[0].clientX;
+    const clientY = event.type === 'mousedown' ? event.clientY : event.touches[0].clientY;
 
-document.addEventListener('mousemove', function (event) {
-    if (isDragging) {
-        let newLeft = event.clientX - offsetX;
-        let newTop = event.clientY - offsetY;
-        newLeft = Math.max(0, Math.min(window.innerWidth - neofetchPopup.offsetWidth, newLeft));
-        newTop = Math.max(0, Math.min(window.innerHeight - neofetchPopup.offsetHeight, newTop));
-        neofetchPopup.style.left = newLeft + 'px';
-        neofetchPopup.style.top = newTop + 'px';
-    }
-});
+    isDragging = true;
+    offsetX = clientX - neofetchPopup.getBoundingClientRect().left;
+    offsetY = clientY - neofetchPopup.getBoundingClientRect().top;
+    document.body.style.cursor = 'grabbing';
 
-document.addEventListener('mouseup', function () {
+    if (event.type === 'touchstart') {
+        event.preventDefault(); 
+    }
+}
+
+function doDrag(event) {
+    if (!isDragging) return;
+
+    const clientX = event.type === 'mousemove' ? event.clientX : event.touches[0].clientX;
+    const clientY = event.type === 'mousemove' ? event.clientY : event.touches[0].clientY;
+
+    let newLeft = clientX - offsetX;
+    let newTop = clientY - offsetY;
+
+    newLeft = Math.max(0, Math.min(window.innerWidth - neofetchPopup.offsetWidth, newLeft));
+    newTop = Math.max(0, Math.min(window.innerHeight - neofetchPopup.offsetHeight, newTop));
+
+    neofetchPopup.style.left = newLeft + 'px';
+    neofetchPopup.style.top = newTop + 'px';
+}
+
+function endDrag() {
     isDragging = false;
     document.body.style.cursor = '';
-});
+}
+
+neofetchPopup.addEventListener('mousedown', startDrag);
+neofetchPopup.addEventListener('touchstart', startDrag);
+
+document.addEventListener('mousemove', doDrag);
+document.addEventListener('touchmove', doDrag);
+
+document.addEventListener('mouseup', endDrag);
+document.addEventListener('touchend', endDrag);
 
 export { togglePopupNeofetch };

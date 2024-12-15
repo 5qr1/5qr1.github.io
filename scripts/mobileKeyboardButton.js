@@ -17,13 +17,9 @@ export function showMobileButtonIfNeeded() {
             document.body.appendChild(input);
             input.focus();
 
-            const closeKeyboard = () => {
-                input.blur();
+            input.addEventListener('blur', () => {
                 document.body.removeChild(input);
-                document.removeEventListener('click', closeKeyboard); 
-            };
-
-            document.addEventListener('click', closeKeyboard);
+            });
         });
     }
 }
