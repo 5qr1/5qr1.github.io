@@ -24,9 +24,8 @@ function startDrag(event) {
     document.body.style.cursor = 'grabbing';
 
     if (event.type === 'touchstart') {
-        event.preventDefault();
+        event.preventDefault(); 
     }
-
     if (touchTimeout) {
         clearTimeout(touchTimeout);
         touchTimeout = null;
@@ -91,6 +90,14 @@ window.addEventListener('load', () => {
             if (touchTimeout) {
                 clearTimeout(touchTimeout);
                 touchTimeout = null;
+            } else {
+                const markdownFile = button.getAttribute('data-markdown');
+                document.getElementById('markdown-popup').style.display = 'block';
+                import('./popupMarkdown.js').then(module => {
+                    module.showMarkdownPopup(markdownFile); 
+                }).catch(error => {
+                    console.error('Error importing popupMarkdown.js:', error);
+                });
             }
         });
     });
