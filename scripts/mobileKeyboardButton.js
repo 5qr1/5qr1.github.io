@@ -6,6 +6,7 @@ export function showMobileButtonIfNeeded() {
         const isMobileHint = /mobile/i.test(userAgent);
         return isAndroid || isIOS || isMobileHint;
     })();
+
     const mobileKeyboardButton = document.getElementById('mobile-keyboard-button');
     if (isMobile) {
         mobileKeyboardButton.style.display = 'block';
@@ -20,19 +21,18 @@ export function showMobileButtonIfNeeded() {
             document.body.appendChild(input);
             input.focus();
 
-            let lastInputTime = 0; 
-            const DEBOUNCE_DELAY = 100; 
+            let keyDownFired = false; 
+
+            input.addEventListener('keydown', (event) => {
+                if (!keyDownFired) {
+                    const key = event.key.toLowerCase();
+                    dispatchKeyEvent(key);
+                    keyDownFired = true; 
+                }
+            });
 
             input.addEventListener('input', (event) => {
-                const value = event.target.value;
-                const currentTime = Date.now();
-
-                if (currentTime - lastInputTime > DEBOUNCE_DELAY && value) {
-                    const key = value[value.length - 1].toLowerCase();
-                    dispatchKeyEvent(key); 
-                    input.value = '';
-                    lastInputTime = currentTime; 
-                }
+                event.preventDefault(); 
             });
 
             input.addEventListener('blur', () => {
