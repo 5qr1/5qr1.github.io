@@ -9,19 +9,21 @@ export function showMobileButtonIfNeeded() {
             const input = document.createElement('input');
             input.type = 'text';
             input.style.position = 'absolute';
-            input.style.top = '0'; 
-            input.style.left = '-9999px'; 
-            input.style.height = '1px'; 
-            input.style.width = '1px';  
+            input.style.top = '0';
+            input.style.left = '-9999px';
+            input.style.height = '1px';
+            input.style.width = '1px';
 
             document.body.appendChild(input);
-
             input.focus();
 
-            setTimeout(() => {
+            const closeKeyboard = () => {
                 input.blur();
                 document.body.removeChild(input);
-            }, 500); 
+                document.removeEventListener('click', closeKeyboard); 
+            };
+
+            document.addEventListener('click', closeKeyboard);
         });
     }
 }
