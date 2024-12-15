@@ -12,4 +12,6 @@ w: pause/unpause song
 
 e: play next song
 
+p: neofetch
+
 ![5qr1 globe](images/5qr1globe.gif)
