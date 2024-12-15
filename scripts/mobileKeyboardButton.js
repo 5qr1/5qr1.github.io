@@ -10,17 +10,20 @@ export function showMobileButtonIfNeeded() {
     if (isMobile) {
         mobileKeyboardButton.style.display = 'block';
         mobileKeyboardButton.addEventListener('click', () => {
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.style.position = 'absolute';
-            input.style.top = '0';
-            input.style.left = '-9999px';
-            input.style.height = '1px';
-            input.style.width = '1px';
-            document.body.appendChild(input);
-            input.focus();
-            input.addEventListener('blur', () => {
-                document.body.removeChild(input);
+            const focusableDiv = document.createElement('div');
+            focusableDiv.tabIndex = 0; 
+            focusableDiv.style.position = 'absolute';
+            focusableDiv.style.top = '0';
+            focusableDiv.style.left = '-9999px';
+            focusableDiv.style.height = '1px';
+            focusableDiv.style.width = '1px';
+            document.body.appendChild(focusableDiv);
+            focusableDiv.focus(); 
+            focusableDiv.addEventListener('keydown', (event) => {
+                document.dispatchEvent(new KeyboardEvent('keydown', { key: event.key }));
+            });
+            focusableDiv.addEventListener('blur', () => {
+                document.body.removeChild(focusableDiv);
             });
         });
     }
