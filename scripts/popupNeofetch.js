@@ -56,41 +56,48 @@ function updateAsciiArt(os) {
     }
 }
 
-function detectBrowser() {
-    const userAgent = navigator.userAgent;
-    const browserInfo = userAgent.match(/(firefox|chrome|safari|edge|opera|brave)\/?\s*(\d+)/i) || [];
-    return `${browserInfo[1] || 'Unknown'} ${browserInfo[2] || ''}`;
-}
-
 function detectBrowserEngine() {
-    if (navigator.vendor === 'Apple Computer, Inc.') {
-        window.browser.engine = 'webkit';
-    } else if (navigator.vendor === 'Google Inc.') {
-        window.browser.engine = 'blink';
-    } else if (!!navigator.buildID) {
-        window.browser.engine = 'gecko';
-    } else if (!!document.documentMode || !!window.ActiveXObject) {
-        window.browser.engine = 'mshtml';
-    } else {
-        window.browser.engine = 'unknown';
+    let engine = 'unknown';
+    const userAgent = navigator.userAgent;
+    if (userAgent.includes('Chrome') || userAgent.includes('Blink')) {
+        engine = 'Blink';  
+    } else if (userAgent.includes('Safari') && !userAgent.includes('Chrome')) {
+        engine = 'WebKit'; 
+    } else if (userAgent.includes('Gecko')) {
+        engine = 'Gecko'; 
+    } else if (userAgent.includes('MSIE') || userAgent.includes('Trident')) {
+        engine = 'MSHTML'; 
     }
 
-    return window.browser.engine;
+    return engine;
 }
 
 function detectSearchEngine() {
-    const referrer = document.referrer.toLowerCase();
-
-    if (referrer.includes('google.com')) return 'Google';
-    if (referrer.includes('bing.com')) return 'Bing';
-    if (referrer.includes('yahoo.com')) return 'Yahoo';
-    if (referrer.includes('duckduckgo.com')) return 'DuckDuckGo';
-    if (referrer.includes('qwant.com')) return 'Qwant';
-    if (referrer.includes('baidu.com')) return 'Baidu';
-    if (referrer.includes('yandex.com')) return 'Yandex';
-
     return 'Unknown';
 }
+
+
+function detectBrowser() {
+    const userAgent = navigator.userAgent;
+    let browser = 'Unknown Browser';
+
+    if (userAgent.includes('Chrome') && !userAgent.includes('Edg')) {
+        browser = 'Chrome';
+    } else if (userAgent.includes('Safari') && !userAgent.includes('Chrome')) {
+        browser = 'Safari';
+    } else if (userAgent.includes('Firefox')) {
+        browser = 'Firefox';
+    } else if (userAgent.includes('Edge')) {
+        browser = 'Edge';
+    } else if (userAgent.includes('Opera')) {
+        browser = 'Opera';
+    } else if (userAgent.includes('Brave')) {
+        browser = 'Brave';
+    }
+
+    return browser;
+}
+
 
 function updateSystemInfo() {
     const osLine = document.getElementById('os-line');
