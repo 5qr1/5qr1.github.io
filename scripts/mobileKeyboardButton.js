@@ -29,10 +29,17 @@ export function showMobileButtonIfNeeded() {
                     dispatchKeyEvent(key);
                     keyDownFired = true; 
                 }
+
+                event.preventDefault();
             });
 
-            input.addEventListener('input', (event) => {
-                event.preventDefault(); 
+            input.addEventListener('input', (event) => {t
+                if (!keyDownFired && event.target.value) {
+                    const key = event.target.value[event.target.value.length - 1].toLowerCase();
+                    dispatchKeyEvent(key);
+                    keyDownFired = true; 
+                    input.value = ''; 
+                }
             });
 
             input.addEventListener('blur', () => {
