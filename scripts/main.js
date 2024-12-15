@@ -2,6 +2,7 @@ import { initAudio } from './audio.js';
 import { togglePopupKey } from './popupKey.js';
 import { togglePopupNeofetch } from './popupNeofetch.js';
 import { showMobileButtonIfNeeded } from './mobileKeyboardButton.js';
+import { togglePopupBlog } from './popupBlog.js';
 
 window.onload = function() {
     initAudio();
@@ -28,8 +29,10 @@ function initMiscellaneous() {
 
 document.addEventListener('keydown', function(event) {
     if (event.key === 'h') {
-        togglePopupKey();
+        togglePopupKey(); 
     } else if (event.key === 'p') {
-        togglePopupNeofetch();
+        togglePopupNeofetch();  
+    } else if (event.key === 'b') {
+            togglePopupBlog();
     }
 });
