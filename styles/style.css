@@ -69,6 +69,39 @@ html, body {
     margin: 10px 0;
 }
 
+#youtube-popup {
+    position: fixed;
+    background-color: #000015;
+    color: white;
+    padding: 20px;
+    border: 1px solid white;
+    display: none;
+    z-index: 3;
+    width: 400px;
+    height: auto;
+    text-align: center;
+    user-select: none;
+}
+
+#youtube-popup input {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+#youtube-popup button {
+    padding: 10px;
+    background-color: #ff0000;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+#youtube-popup iframe {
+    margin-top: 20px;
+}
+
+
 #neofetch-popup {
     position: fixed;
     background-color: #000015;
