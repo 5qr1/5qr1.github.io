@@ -58,35 +58,57 @@ document.addEventListener('mouseup', endDrag);
 document.addEventListener('touchend', endDrag);
 
 async function fetchSoundcloudResults(query) {
-    soundcloudResults.innerHTML = '<p>Loading...</p>';
+    soundcloudResults.innerHTML = '<p>were loading</p>';
 
     const apiUrl = `https://api.shy.rocks/5qr1/soundcloud/search?q=${encodeURIComponent(query)}`;
 
     try {
         const response = await fetch(apiUrl);
-        if (!response.ok) {
-            throw new Error(`HTTP Error: ${response.status} - ${response.statusText}`);
-        }
+        if (!response.ok) throw new Error('failed to fetch the results');
 
         const data = await response.json();
-        displayResults(data);
+
+        if (Array.isArray(data.results)) {
+            displayResults(data.results);
+        } else {
+            throw new Error('invalid response format: results is not an array');
+        }
     } catch (error) {
-        console.error('we fucked up:', error);
         soundcloudResults.innerHTML = `<p style="color: red;">we fucked up: ${error.message}</p>`;
     }
 }
 
 function displayResults(results) {
     if (!results || results.length === 0) {
-        soundcloudResults.innerHTML = '<p>No results found</p>';
+        soundcloudResults.innerHTML = '<p>no results found</p>';
         return;
     }
 
     soundcloudResults.innerHTML = results.map(item => `
-        <div>
-            <a href="${item.url}" target="_blank">${item.title}</a>
+        <div class="soundcloud-item">
+            <a href="#" class="soundcloud-link" data-url="${item.playUrl}">${item.title}</a>
         </div>
     `).join('');
+
+    const links = document.querySelectorAll('.soundcloud-link');
+    links.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const playUrl = e.target.dataset.url;
+            playAudio(playUrl);
+        });
+    });
+}
+
+function playAudio(url) {
+    let audioPlayer = document.getElementById('soundcloud-audio-player');
+    if (!audioPlayer) {
+        audioPlayer = document.createElement('audio');
+        audioPlayer.id = 'soundcloud-audio-player';
+        document.body.appendChild(audioPlayer);
+    }
+    audioPlayer.src = url;
+    audioPlayer.play();
 }
 
 soundcloudInput.addEventListener('input', (e) => {
