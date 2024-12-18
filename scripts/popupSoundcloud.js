@@ -76,7 +76,7 @@ async function fetchSoundcloudResults(query) {
             }));
             displayResults(simplifiedResults);
         } else {
-            throw new Error('Invalid response format: tracks is not an array');
+            throw new Error('invalid response format: tracks is not an array');
         }
     } catch (error) {
         console.error('Error fetching results:', error); 
@@ -86,7 +86,7 @@ async function fetchSoundcloudResults(query) {
 
 function displayResults(results) {
     if (!results || results.length === 0) {
-        soundcloudResults.innerHTML = '<p>no results found</p>';
+        soundcloudResults.innerHTML = '<p>No results found</p>';
         return;
     }
 
@@ -117,6 +117,7 @@ function playAudio(url) {
     audioPlayer.play();
 }
 
+
     soundcloudResults.innerHTML = results.map(item => `
         <div class="soundcloud-item">
             <a href="#" class="soundcloud-link" data-url="${item.playUrl}">${item.title}</a>
@@ -131,17 +132,6 @@ function playAudio(url) {
             playAudio(playUrl);
         });
     });
-
-function playAudio(url) {
-    let audioPlayer = document.getElementById('soundcloud-audio-player');
-    if (!audioPlayer) {
-        audioPlayer = document.createElement('audio');
-        audioPlayer.id = 'soundcloud-audio-player';
-        document.body.appendChild(audioPlayer);
-    }
-    audioPlayer.src = url;
-    audioPlayer.play();
-}
 
 soundcloudInput.addEventListener('input', (e) => {
     const query = e.target.value.trim();
