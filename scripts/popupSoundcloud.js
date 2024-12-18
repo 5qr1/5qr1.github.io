@@ -74,12 +74,13 @@ async function fetchSoundcloudResults(query) {
                 title: track.title,
                 playUrl: track.playUrl
             }));
+
             displayResults(simplifiedResults);
         } else {
-            throw new Error('invalid response format: tracks is not an array');
+            throw new Error('Invalid response format: tracks is not an array');
         }
     } catch (error) {
-        console.error('Error fetching results:', error); 
+        console.error('Error fetching results:', error);
         soundcloudResults.innerHTML = `<p style="color: red;">we fucked up: ${error.message}</p>`;
     }
 }
@@ -95,11 +96,10 @@ function displayResults(results) {
             <a href="#" class="soundcloud-link" data-url="${item.playUrl}">${item.title}</a>
         </div>
     `).join('');
-
     const links = document.querySelectorAll('.soundcloud-link');
     links.forEach(link => {
         link.addEventListener('click', (e) => {
-            e.preventDefault();
+            e.preventDefault(); 
             const playUrl = e.target.dataset.url;
             playAudio(playUrl);
         });
