@@ -1,8 +1,8 @@
 import { initAudio } from './audio.js';
 import { togglePopupKey } from './popupKey.js';
-import { toggleYoutubePopup, embedYouTubeVideo } from './popupYoutube.js';
 import { togglePopupNeofetch } from './popupNeofetch.js';
 import { togglePopupBlog } from './popupBlog.js';
+import { togglePopupSoundcloud } from './popupSoundcloud.js';
 
 window.onload = function() {
     initAudio();
@@ -29,18 +29,11 @@ function initMiscellaneous() {
 document.addEventListener('keydown', function(event) {
     if (event.key === 'h') {
         togglePopupKey(); 
-    } else if (event.key === 'e') {
-        toggleYoutubePopup(); // Trigger the YouTube input popup
     } else if (event.key === 'p') {
         togglePopupNeofetch();  
     } else if (event.key === 'b') {
         togglePopupBlog();
-    }
-});
-
-// Optional: Listen for the Enter key to embed the YouTube video
-document.getElementById('youtube-input').addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-        embedYouTubeVideo();
+    } else if (event.key === 's') {
+        togglePopupSoundcloud();
     }
 });

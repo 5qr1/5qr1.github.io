@@ -16,6 +16,16 @@
         </div>
     </div>
 
+    <div id="soundcloud-popup">
+        <h3>soundcloud</h3>
+        <input 
+            id="soundcloud-search-input" 
+            type="text" 
+            placeholder="Search SoundCloud" 
+        />
+        <div id="soundcloud-results"></div>
+    </div>
+
     <audio id="background-audio" autoplay loop></audio>
 
     <div id="keybinds-popup">
@@ -25,14 +35,8 @@
             <li><strong>w:</strong> pause / play song</li>
             <li><strong>e:</strong> next song</li>
             <li><strong>p:</strong> neofetch</li>
+            <li><strong>b:</strong> blog</li>
         </ul>
-    </div>
-
-    <div id="youtube-popup" style="display:none;">
-        <h2>YouTube Video Embed</h2>
-        <input type="text" id="youtube-input" placeholder="Enter YouTube URL" />
-        <button onclick="embedYouTubeVideo()">Embed Video</button>
-        <iframe id="youtube-embed" style="display:none;width:560px;height:315px;border:0;" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
 
     <div id="neofetch-popup">

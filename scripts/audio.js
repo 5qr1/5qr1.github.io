@@ -19,11 +19,13 @@ function playRandomTrack() {
 
 audio.addEventListener('ended', playRandomTrack);
 
-document.body.addEventListener('click', function() {
+document.body.addEventListener('click', function playOnce() {
     if (audio.paused) {
         audio.play();
+        document.body.removeEventListener('click', playOnce);
     }
 });
+
 
 document.addEventListener('keydown', function(event) {
     if (event.key === 'q') {
