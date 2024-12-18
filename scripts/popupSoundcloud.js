@@ -58,22 +58,28 @@ document.addEventListener('mouseup', endDrag);
 document.addEventListener('touchend', endDrag);
 
 async function fetchSoundcloudResults(query) {
-    soundcloudResults.innerHTML = '<p>were loading</p>';
+    soundcloudResults.innerHTML = '<p>Loading...</p>';
 
     const apiUrl = `https://api.shy.rocks/5qr1/soundcloud/search?q=${encodeURIComponent(query)}`;
 
     try {
         const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error('failed to fetch the results');
+        if (!response.ok) throw new Error('Failed to fetch the results');
 
         const data = await response.json();
+        console.log('API Response:', data); 
 
-        if (Array.isArray(data.results)) {
-            displayResults(data.results);
+        if (Array.isArray(data.tracks)) {
+            const simplifiedResults = data.tracks.map(track => ({
+                title: track.title,
+                playUrl: track.playUrl
+            }));
+            displayResults(simplifiedResults);
         } else {
-            throw new Error('invalid response format: results is not an array');
+            throw new Error('Invalid response format: tracks is not an array');
         }
     } catch (error) {
+        console.error('Error fetching results:', error); 
         soundcloudResults.innerHTML = `<p style="color: red;">we fucked up: ${error.message}</p>`;
     }
 }
@@ -99,6 +105,32 @@ function displayResults(results) {
         });
     });
 }
+
+function playAudio(url) {
+    let audioPlayer = document.getElementById('soundcloud-audio-player');
+    if (!audioPlayer) {
+        audioPlayer = document.createElement('audio');
+        audioPlayer.id = 'soundcloud-audio-player';
+        document.body.appendChild(audioPlayer);
+    }
+    audioPlayer.src = url;
+    audioPlayer.play();
+}
+
+    soundcloudResults.innerHTML = results.map(item => `
+        <div class="soundcloud-item">
+            <a href="#" class="soundcloud-link" data-url="${item.playUrl}">${item.title}</a>
+        </div>
+    `).join('');
+
+    const links = document.querySelectorAll('.soundcloud-link');
+    links.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const playUrl = e.target.dataset.url;
+            playAudio(playUrl);
+        });
+    });
 
 function playAudio(url) {
     let audioPlayer = document.getElementById('soundcloud-audio-player');
