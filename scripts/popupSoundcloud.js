@@ -1,5 +1,10 @@
+// go to https://shy.rocks/
+// thank u to shykuni for making this possible wit the api
+
 let isDragging = false;
 let offsetX, offsetY;
+let backgroundAudio = document.getElementById('background-audio');
+let currentAudio = null;
 
 const soundcloudPopup = document.getElementById('soundcloud-popup');
 const soundcloudInput = document.getElementById('soundcloud-search-input');
@@ -57,26 +62,34 @@ document.addEventListener('touchmove', doDrag);
 document.addEventListener('mouseup', endDrag);
 document.addEventListener('touchend', endDrag);
 
+function sanitize(string = '') {
+    let newString = string // thank you to shykuni for this code snippet
+        .replaceAll('"', '&quot;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .trim();
+
+    return newString;
+}
+
 async function fetchSoundcloudResults(query) {
-    soundcloudResults.innerHTML = '<p>Loading...</p>';
+    soundcloudResults.innerHTML = '<p>were loading...</p>';
 
     const apiUrl = `https://api.shy.rocks/5qr1/soundcloud/search?q=${encodeURIComponent(query)}`;
 
     try {
         const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error('failed to fetch the results');
+        if (!response.ok) throw new Error('Failed to fetch the results');
 
         const data = await response.json();
 
         if (Array.isArray(data.tracks)) {
             const simplifiedResults = data.tracks.map(track => ({
-                title: track.title,
+                title: sanitize(track.title),
                 playUrl: track.playUrl
             }));
 
             displayResults(simplifiedResults);
-        } else {
-            throw new Error('invalid response format: tracks is not an array');
         }
     } catch (error) {
         soundcloudResults.innerHTML = `<p style="color: red;">we fucked up: ${error.message}</p>`;
@@ -106,22 +119,35 @@ function displayResults(results) {
 }
 
 function playAudio(url) {
-    let audioPlayer = document.getElementById('soundcloud-audio-player');
-    if (!audioPlayer) {
-        audioPlayer = document.createElement('audio');
-        audioPlayer.id = 'soundcloud-audio-player';
-        document.body.appendChild(audioPlayer);
+    if (backgroundAudio) backgroundAudio.pause();
+
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.remove();
     }
-    audioPlayer.src = url;
-    audioPlayer.play();
+
+    currentAudio = document.createElement('audio');
+    currentAudio.src = url;
+    currentAudio.id = 'soundcloud-audio-player';
+    document.body.appendChild(currentAudio);
+    currentAudio.play();
+
+    currentAudio.addEventListener('ended', () => {
+        if (backgroundAudio) backgroundAudio.play();
+        currentAudio.remove();
+        currentAudio = null;
+    });
 }
 
-soundcloudInput.addEventListener('input', (e) => {
-    const query = e.target.value.trim();
-    if (query) {
-        fetchSoundcloudResults(query);
-    } else {
-        soundcloudResults.innerHTML = '';
+soundcloudInput.addEventListener('keydown', (e) => {
+    e.stopPropagation();
+    if (e.key === 'Enter') {
+        const query = e.target.value.trim();
+        if (query) {
+            fetchSoundcloudResults(query);
+        } else {
+            soundcloudResults.innerHTML = '';
+        }
     }
 });
 

@@ -187,7 +187,7 @@ html, body {
     display: none;
     z-index: 2;
     width: 300px;
-    height: 500px;
+    height: 200px;
     text-align: center;
     overflow: hidden;
     user-select: none;
@@ -196,38 +196,37 @@ html, body {
 #soundcloud-popup h3 {
     margin: 0 0 10px 0;
     font-size: 16px;
-    color: #333;
+    color: white;
 }
 
 #soundcloud-search-input {
     width: 100%;
     padding: 5px;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid white;
     box-sizing: border-box;
+    color: #1a1a3d;
 }
 
 #soundcloud-results {
-    max-height: 200px;
+    max-height: 130px;
     overflow-y: auto;
-    border-top: 1px solid #ddd;
     padding-top: 5px;
 }
 
 #soundcloud-results div {
     padding: 5px;
-    border-bottom: 1px solid #ddd;
 }
 
 #soundcloud-results a {
     text-decoration: none;
-    color: blue;
+    color: #6BADCE;
     font-size: 14px;
 }
 
 #soundcloud-results a:hover {
     text-decoration: underline;
+    color: #3A5D9C;
 }
 
 
