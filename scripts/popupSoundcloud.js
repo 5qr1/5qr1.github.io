@@ -64,10 +64,9 @@ async function fetchSoundcloudResults(query) {
 
     try {
         const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error('Failed to fetch the results');
+        if (!response.ok) throw new Error('failed to fetch the results');
 
         const data = await response.json();
-        console.log('API Response:', data); 
 
         if (Array.isArray(data.tracks)) {
             const simplifiedResults = data.tracks.map(track => ({
@@ -77,17 +76,16 @@ async function fetchSoundcloudResults(query) {
 
             displayResults(simplifiedResults);
         } else {
-            throw new Error('Invalid response format: tracks is not an array');
+            throw new Error('invalid response format: tracks is not an array');
         }
     } catch (error) {
-        console.error('Error fetching results:', error);
         soundcloudResults.innerHTML = `<p style="color: red;">we fucked up: ${error.message}</p>`;
     }
 }
 
 function displayResults(results) {
     if (!results || results.length === 0) {
-        soundcloudResults.innerHTML = '<p>No results found</p>';
+        soundcloudResults.innerHTML = '<p>no results found</p>';
         return;
     }
 
@@ -96,10 +94,11 @@ function displayResults(results) {
             <a href="#" class="soundcloud-link" data-url="${item.playUrl}">${item.title}</a>
         </div>
     `).join('');
+
     const links = document.querySelectorAll('.soundcloud-link');
     links.forEach(link => {
         link.addEventListener('click', (e) => {
-            e.preventDefault(); 
+            e.preventDefault();
             const playUrl = e.target.dataset.url;
             playAudio(playUrl);
         });
@@ -116,22 +115,6 @@ function playAudio(url) {
     audioPlayer.src = url;
     audioPlayer.play();
 }
-
-
-    soundcloudResults.innerHTML = results.map(item => `
-        <div class="soundcloud-item">
-            <a href="#" class="soundcloud-link" data-url="${item.playUrl}">${item.title}</a>
-        </div>
-    `).join('');
-
-    const links = document.querySelectorAll('.soundcloud-link');
-    links.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const playUrl = e.target.dataset.url;
-            playAudio(playUrl);
-        });
-    });
 
 soundcloudInput.addEventListener('input', (e) => {
     const query = e.target.value.trim();
