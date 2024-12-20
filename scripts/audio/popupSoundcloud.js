@@ -1,5 +1,7 @@
-// go to https://shy.rocks/
-// thank u to shykuni for making this possible wit the api
+// thanks to shykuni / shy1132 for providing the backend and making this possible
+// visit their site(s):
+// https://saws.land/
+// https://shy.rocks/
 
 let isDragging = false;
 let offsetX, offsetY;
@@ -10,6 +12,46 @@ const soundcloudPopup = document.getElementById('soundcloud-popup');
 const soundcloudInput = document.getElementById('soundcloud-search-input');
 const soundcloudResults = document.getElementById('soundcloud-results');
 
+const controlPanel = document.createElement('div');
+controlPanel.id = 'control-panel';
+
+const speedLabel = document.createElement('label');
+speedLabel.setAttribute('for', 'speed-slider');
+speedLabel.textContent = 'Speed:';
+controlPanel.appendChild(speedLabel);
+
+const speedSlider = document.createElement('input');
+speedSlider.id = 'speed-slider';
+speedSlider.type = 'range';
+speedSlider.min = 0.5;
+speedSlider.max = 2;
+speedSlider.step = 0.1;
+speedSlider.value = 1;
+controlPanel.appendChild(speedSlider);
+
+const volumeLabel = document.createElement('label');
+volumeLabel.setAttribute('for', 'volume-slider');
+volumeLabel.textContent = 'Volume:';
+controlPanel.appendChild(volumeLabel);
+
+const volumeSlider = document.createElement('input');
+volumeSlider.id = 'volume-slider';
+volumeSlider.type = 'range';
+volumeSlider.min = 0;
+volumeSlider.max = 1;
+volumeSlider.step = 0.1;
+volumeSlider.value = 1;
+controlPanel.appendChild(volumeSlider);
+
+const pauseButton = document.createElement('button');
+pauseButton.id = 'pause-button';
+pauseButton.textContent = 'Pause';
+controlPanel.appendChild(pauseButton);
+
+soundcloudPopup.appendChild(controlPanel);
+
+let isPaused = false;
+
 function togglePopupSoundcloud() {
     if (soundcloudPopup.style.display === 'none' || soundcloudPopup.style.display === '') {
         soundcloudPopup.style.display = 'block';
@@ -19,6 +61,8 @@ function togglePopupSoundcloud() {
 }
 
 function startDrag(event) {
+    if (isSliderBeingDragged) return;
+
     const clientX = event.type === 'mousedown' ? event.clientX : event.touches[0].clientX;
     const clientY = event.type === 'mousedown' ? event.clientY : event.touches[0].clientY;
 
@@ -73,13 +117,13 @@ function sanitize(string = '') {
 }
 
 async function fetchSoundcloudResults(query) {
-    soundcloudResults.innerHTML = '<p>were loading...</p>';
+    soundcloudResults.innerHTML = '<p>Loading...</p>';
 
     const apiUrl = `https://api.shy.rocks/5qr1/soundcloud/search?q=${encodeURIComponent(query)}`;
 
     try {
         const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error('Failed to fetch the results');
+        if (!response.ok) throw new Error('failed to fetch the results');
 
         const data = await response.json();
 
@@ -92,7 +136,7 @@ async function fetchSoundcloudResults(query) {
             displayResults(simplifiedResults);
         }
     } catch (error) {
-        soundcloudResults.innerHTML = `<p style="color: red;">we fucked up: ${error.message}</p>`;
+        soundcloudResults.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
     }
 }
 
@@ -119,7 +163,10 @@ function displayResults(results) {
 }
 
 function playAudio(url) {
-    if (backgroundAudio) backgroundAudio.pause();
+    if (backgroundAudio) {
+        backgroundAudio.pause();
+        backgroundAudio.currentTime = 0; 
+    }
 
     if (currentAudio) {
         currentAudio.pause();
@@ -132,12 +179,61 @@ function playAudio(url) {
     document.body.appendChild(currentAudio);
     currentAudio.play();
 
+    setAudioSpeed(speedSlider.value);
+    setAudioVolume(volumeSlider.value);
+
     currentAudio.addEventListener('ended', () => {
-        if (backgroundAudio) backgroundAudio.play();
         currentAudio.remove();
         currentAudio = null;
+
+        if (backgroundAudio) {
+            backgroundAudio.play(); 
+        }
     });
 }
+
+function setAudioSpeed(speed) {
+    if (currentAudio) {
+        currentAudio.playbackRate = speed;
+    }
+}
+
+function setAudioVolume(volume) {
+    if (currentAudio) {
+        currentAudio.volume = volume;
+    }
+}
+
+function togglePause() {
+    if (currentAudio) {
+        if (isPaused) {
+            currentAudio.play();
+            isPaused = false;
+            pauseButton.textContent = 'Pause';
+        } else {
+            currentAudio.pause();
+            isPaused = true;
+            pauseButton.textContent = 'Resume';
+        }
+    }
+}
+
+let isSliderBeingDragged = false;
+
+speedSlider.addEventListener('input', (e) => {
+    setAudioSpeed(e.target.value);
+});
+
+volumeSlider.addEventListener('input', (e) => {
+    setAudioVolume(e.target.value);
+});
+
+speedSlider.addEventListener('mousedown', () => isSliderBeingDragged = true);
+volumeSlider.addEventListener('mousedown', () => isSliderBeingDragged = true);
+speedSlider.addEventListener('mouseup', () => isSliderBeingDragged = false);
+volumeSlider.addEventListener('mouseup', () => isSliderBeingDragged = false);
+
+pauseButton.addEventListener('click', togglePause);
 
 soundcloudInput.addEventListener('keydown', (e) => {
     e.stopPropagation();

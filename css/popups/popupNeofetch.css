@@ -1,0 +1,27 @@
+#neofetch-popup {
+    position: fixed;
+    background-color: #000015;
+    color: white;
+    padding: 20px;
+    border: 1px solid white;
+    display: none;
+    text-align: center;
+    overflow: hidden;
+    user-select: none;
+    width: auto;
+    height: auto;
+    text-align: left; 
+    font-family: 'Courier New', monospace; 
+    font-size: 14px;
+}
+
+
+#neofetch-popup pre {
+    margin: 0;
+    white-space: pre-wrap; 
+    word-wrap: break-word; 
+}
+
+#neofetch-popup li {
+    margin: 10px 0;
+}

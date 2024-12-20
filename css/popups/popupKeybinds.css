@@ -1,0 +1,23 @@
+#keybinds-popup {
+    width: 300px;
+    height: auto;
+    position: fixed;
+    background-color: #000015;
+    color: white;
+    padding: 20px;
+    border: 1px solid white;
+    display: none;
+    text-align: center;
+    overflow: hidden;
+    user-select: none;
+}
+
+#keybinds-popup ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#keybinds-popup li {
+    margin: 10px 0;
+}

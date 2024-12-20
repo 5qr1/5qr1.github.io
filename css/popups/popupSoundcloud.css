@@ -1,0 +1,77 @@
+#soundcloud-popup {
+    position: fixed;
+    background-color: #000015;
+    color: white;
+    padding: 20px;
+    border: 1px solid white;
+    display: none;
+    text-align: center;
+    overflow: hidden;
+    user-select: none;
+    width: 500px;
+    height: 300px;
+}
+
+#soundcloud-popup h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    color: white;
+}
+
+#soundcloud-search-input {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid white;
+    box-sizing: border-box;
+}
+
+#soundcloud-results {
+    max-height: 130px;
+    overflow-y: auto;
+    padding-top: 5px;
+}
+
+#soundcloud-results div {
+    padding: 5px;
+}
+
+#soundcloud-results a {
+    text-decoration: none;
+    color: #6BADCE;
+    font-size: 14px;
+}
+
+#soundcloud-results a:hover {
+    text-decoration: underline;
+    color: #3A5D9C;
+}
+
+
+
+#control-panel {
+    margin-top: 10px;
+}
+
+#control-panel label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+#control-panel input[type="range"] {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#control-panel button {
+    background-color: #6BADCE;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+#control-panel button:hover {
+    background-color: #3A5D9C;
+}

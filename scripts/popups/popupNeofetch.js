@@ -73,7 +73,7 @@ function detectBrowserEngine() {
 }
 
 function detectSearchEngine() {
-    return 'Unknown';
+    return 'unknown';
 }
 
 

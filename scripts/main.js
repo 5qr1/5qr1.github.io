@@ -1,8 +1,8 @@
-import { initAudio } from './audio.js';
-import { togglePopupKey } from './popupKey.js';
-import { togglePopupNeofetch } from './popupNeofetch.js';
-import { togglePopupBlog } from './popupBlog.js';
-import { togglePopupSoundcloud } from './popupSoundcloud.js';
+import { initAudio, playSoundcloudAudio } from './audio/audio.js'; 
+import { togglePopupKey } from './popups/popupKey.js';
+import { togglePopupNeofetch } from './popups/popupNeofetch.js';
+import { togglePopupBlog } from './popups/popupBlog.js';
+import { togglePopupSoundcloud } from './audio/popupSoundcloud.js';
 
 window.onload = function() {
     initAudio();
@@ -35,5 +35,12 @@ document.addEventListener('keydown', function(event) {
         togglePopupBlog();
     } else if (event.key === 's') {
         togglePopupSoundcloud();
+    }
+});
+
+document.addEventListener('playSoundcloud', (event) => {
+    const { playUrl } = event.detail; 
+    if (playUrl) {
+        playSoundcloudAudio(playUrl); 
     }
 });
