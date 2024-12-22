@@ -1,3 +1,26 @@
+## IMPORTANT NOTICE: THIS WEBSITE HAS BEEN MOVED TO https://5qr1.world/
+
+# why?
+
+cool name, and also i can make secrets easily
+
+# what happens to this repo?
+
+archive
+
+# will the source code for 5qr1world still be public?
+
+ask me for my terrible code and ill probably give it to you, my discord is 5qr1
+
+
+
+
+
+
+
+
+
+
 # https://5qr1.github.io/
 a simple(ish) site with a blog!
 
