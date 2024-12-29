@@ -1,6 +1,5 @@
 // thanks to shykuni / shy1132 for providing the backend and making this possible
-// visit their site(s):
-// https://saws.land/
+// visit their site:
 // https://shy.rocks/
 
 let isDragging = false;
